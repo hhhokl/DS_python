@@ -1,34 +1,60 @@
-class Conv:
-    def __init__(self):
-        self.val = [
-            1000, 900, 500, 400,
-            100, 90, 50, 40,
-            10, 9, 5, 4, 1
-        ]
+class Rocket:
 
-        self.syb = [
-            'M', 'CM', 'D', 'CD',
-            'C', 'XC', 'L', 'XL',
-            'X', 'IX', 'V', 'IV',
-            'I'
-        ]
-        
-    def to_roman(self, num):    
+    def __init__(self, name, mission):
         """
-        :param self:
-        :param n: int
-        :return: str    
+        :param name: str
+        :param mission: str or list
         """
-        first_part_index = 0
-        first_part = 0
-        for val_item in self.val:
-            if val_item - num < 0 and val_item > first_part:
-                first_part = val_item
-                first_part_index = self.val.index(val_item)
-        second_part = num - first_part
-        second_part_index = self.val.index(second_part)
-        return f'{self.syb[first_part_index]}{self.syb[second_part_index]}'
+        # attributes are private to class Rocket
+        self.__name = name
+        self.__mission = [mission]
+
+    def getMission(self): 
+        """
+        : return str or list
+        """
+        return self.__mission
+
+    def addMission(self, mission): 
+        # procedure method which adds a new mission. There can be one (str) or multiple (list) existing missions
+        """
+        : param mission: str
+        """
+        self.__mission.append(mission)
+
+    def getName(self):
+        """
+        : return str
+        """
+        return self.__name
+
+    
+class Shuttle(Rocket):
+
+    def __init__(self, name, mission, model):
+        # call parent constructor to set name and mission  
+        """
+        :param name: str
+        :param mission: str or list
+        : param model: str
+        """
+        super().__init__(name, mission)
+        self.__model = model
+
+    def getDescription(self):
+        return 'Name: {0}\nModel: {1}\nMissions: {2}'.format(self.getName(), self.__model, str(self.getMission()))
 
 
+dragon = Shuttle("Crew Dragon", "Dragon 2 pad abort test", "V2")
+print(dragon.getDescription(), '\n')
+dragon.addMission('Dragon 2 in-flight abort test')
+print(dragon.getDescription())
 
-print('Converted:', Conv().to_roman(44))
+
+"""            Name: Crew Dragon
+            Model: V2
+            Missions: Dragon 2 pad abort test
+            
+            Name: Crew Dragon
+            Model: V2
+            Missions: ['Dragon 2 pad abort test', 'Dragon 2 in-flight abort test']"""
